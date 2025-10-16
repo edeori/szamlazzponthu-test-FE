@@ -6,6 +6,7 @@ import { CellTemplateDirective } from '../../shared/ui/data-table/cell-template.
 import { ColumnDef } from '../../shared/ui/data-table/column.model';
 import { TranslationService } from '../../core/services/translation.service';
 import { UsersService, Person } from '../../core/services/users.service';
+import { catchError, finalize, of } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -40,7 +41,6 @@ export class TableComponent {
     this.loading = true;
     this.users.list(this.pageIndex, this.pageSize).subscribe({
       next: res => {
-        console.log('USERS ->', res.items);
         this.data = res.items;
         this.hasMore = res.hasMore;
         this.loading = false;
@@ -60,13 +60,45 @@ export class TableComponent {
 
   onEdit(row: Person) {
     console.log('EDIT', row);
-    // TODO: modal/route stb.
+    this.router.navigate(['/edit', row.id], {
+      state: { person: row }
+    });
   }
 
   onDelete(row: Person) {
-    console.log('DELETE', row);
-    // TODO: megerősítő párbeszéd, API hívás stb.
+    const confirmed = confirm(`Biztosan törlöd: "${row.name}"?`);
+    if (!confirmed) return;
+
+    this.loading = true;
+
+    this.users.delete(row.id).pipe(
+      catchError(err => {
+        console.error(err);
+        alert('Hiba történt a törlés során.');
+        // swallow → továbbmegyünk a finalize-ra, ami frissít
+        return of(void 0);
+      }),
+      finalize(() => {
+        this.users.list(this.pageIndex, this.pageSize).subscribe({
+          next: res => {
+            if (res.items.length === 0 && this.pageIndex > 0) {
+              this.pageIndex--;
+              this.fetch();
+            } else {
+              this.data = res.items;
+              this.hasMore = res.hasMore;
+              this.loading = false;
+            }
+          },
+          error: err => {
+            console.error(err);
+            this.loading = false;
+          }
+        });
+      })
+    ).subscribe();
   }
+
 
   onCreate() {
     console.log('Create clicked');

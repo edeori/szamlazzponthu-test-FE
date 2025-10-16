@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { from, map, Observable } from 'rxjs';
 import { apiClient } from './client.initializer';
+import type { UsrCreate, UsrPut, Usr } from './api/models';
 
 export interface Person {
     id: number;
@@ -18,6 +19,7 @@ export interface Page<T> {
 
 @Injectable({ providedIn: 'root' })
 export class UsersService {
+
     list(pageIndex: number, pageSize: number): Observable<Page<Person>> {
         const limit = pageSize;
         const offset = pageIndex * pageSize;
@@ -35,5 +37,37 @@ export class UsersService {
                 hasMore: usrs.length === pageSize, // nincs total → ebből következtetünk
             }))
         );
+    }
+
+    getById(id: number): Observable<Usr> {
+        return from(apiClient.usersIdGet({ id }));
+    }
+
+    update(id: number, person: UsrPut): Observable<Usr> {
+        return from(apiClient.usersIdPut({ id: id, usrPut: person }));
+    }
+
+    delete(id: number): Observable<void> {
+        return from(apiClient.usersIdDelete({ id }));
+    }
+
+    create(form: {
+        firstname: string;
+        lastname: string;
+        address: string;
+        telephone: string;
+        job?: string;
+        active?: boolean;
+    }): Observable<Usr> {
+        const payload: UsrCreate = {
+            firstname: form.firstname.trim(),
+            lastname: form.lastname.trim(),
+            job: (form.job ?? '').trim(),
+            address: form.address?.trim(),
+            telephone: form.telephone?.trim(),
+            active: form.active ?? true,
+        };
+
+        return from(apiClient.usersPost({ usrCreate: payload }));
     }
 }

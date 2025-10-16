@@ -3,13 +3,12 @@
         <h2 class="title">Személy módosítása</h2>
 
         <form (ngSubmit)="onSubmit()" #f="ngForm" class="form-grid">
-            <ui-input label="{{ t('edit.lastName') }}" [(model)]="form.lastname" />
-            <ui-input label="{{ t('edit.firstName') }}" [(model)]="form.firstname" />
-            <ui-input label="{{ t('edit.address') }}" [(model)]="form.address" />
-            <ui-input label="{{ t('edit.phone') }}" [(model)]="form.phone" />
-            <ui-input label="{{ t('edit.job') }}" [(model)]="form.occupation" />
+            <ui-input label="{{ t('edit.lastName') }}" [(ngModel)]="form.lastname" name="lastname" />
+            <ui-input label="{{ t('edit.firstName') }}" [(ngModel)]="form.firstname" name="firstname" />
+            <ui-input label="{{ t('edit.address') }}" [(ngModel)]="form.address" name="address" />
+            <ui-input label="{{ t('edit.phone') }}" [(ngModel)]="form.telephone" name="telephone" />
+            <ui-input label="{{ t('edit.job') }}" [(ngModel)]="form.job" name="job" />
 
-            <!-- Aktív státusz -->
             <label class="checkbox-row">
                 <input type="checkbox" [(ngModel)]="form.active" name="active" />
                 <span>Aktív</span>

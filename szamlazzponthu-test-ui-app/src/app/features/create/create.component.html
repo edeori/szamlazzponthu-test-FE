@@ -2,16 +2,54 @@
     <div class="create-card">
         <h2 class="title">{{ t('create.title') }}</h2>
 
-        <form (ngSubmit)="onSubmit()" #f="ngForm" class="form-grid">
-            <ui-input label="{{ t('create.lastName') }}" [(model)]="form.lastname" placeholder="pl. Kovács" />
-            <ui-input label="{{ t('create.firstName') }}" [(model)]="form.firstname" placeholder="pl. Péter" />
-            <ui-input label="{{ t('create.address') }}" [(model)]="form.address" placeholder="pl. Budapest, Fő utca 12." />
-            <ui-input label="{{ t('create.phone') }}" [(model)]="form.phone" placeholder="pl. +36 30 123 4567" />
-            <ui-input label="{{ t('create.job') }}" [(model)]="form.occupation" placeholder="pl. Fejlesztő" />
+        <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="form-grid" novalidate>
+            <!-- Vezetéknév -->
+            <ui-input label="{{ t('create.lastName') }}" name="lastname" [required]="true" [minlength]="2"
+                [maxlength]="64" placeholder="pl. Kovács" [(ngModel)]="form.lastname" #lastname="ngModel" />
+            <div *ngIf="lastname.invalid && lastname.touched" class="error">
+                <small *ngIf="lastname.errors?.['required']">{{ t('validation.required') }}</small>
+                <small *ngIf="lastname.errors?.['minlength']">{{ t('validation.minLength', { min: 2 }) }}</small>
+                <small *ngIf="lastname.errors?.['maxlength']">{{ t('validation.maxLength', { max: 64 }) }}</small>
+            </div>
+
+            <!-- Keresztnév -->
+            <ui-input label="{{ t('create.firstName') }}" name="firstname" [required]="true" [minlength]="2"
+                [maxlength]="64" placeholder="pl. Péter" [(ngModel)]="form.firstname" #firstname="ngModel" />
+            <div *ngIf="firstname.invalid && firstname.touched" class="error">
+                <small *ngIf="firstname.errors?.['required']">{{ t('validation.required') }}</small>
+                <small *ngIf="firstname.errors?.['minlength']">{{ t('validation.minLength', { min: 2 }) }}</small>
+                <small *ngIf="firstname.errors?.['maxlength']">{{ t('validation.maxLength', { max: 64 }) }}</small>
+            </div>
+
+            <!-- Cím -->
+            <ui-input label="{{ t('create.address') }}" name="address" [maxlength]="128"
+                placeholder="pl. Budapest, Fő utca 12." [(ngModel)]="form.address" #address="ngModel" />
+            <div *ngIf="address.invalid && address.touched" class="error">
+                <small *ngIf="address.errors?.['maxlength']">{{ t('validation.maxLength', { max: 128 }) }}</small>
+            </div>
+
+            <!-- Telefon -->
+            <ui-input label="{{ t('create.phone') }}" name="phone" type="tel" [maxlength]="128" pattern="^[0-9+\s-]*$"
+                placeholder="pl. +36 30 123 4567" [(ngModel)]="form.telephone" #phone="ngModel" />
+            <div *ngIf="phone.invalid && phone.touched" class="error">
+                <small *ngIf="phone.errors?.['pattern']">{{ t('validation.phoneFormat') }}</small>
+                <small *ngIf="phone.errors?.['maxlength']">{{ t('validation.maxLength', { max: 128 }) }}</small>
+            </div>
+
+            <!-- Foglalkozás -->
+            <ui-input label="{{ t('create.job') }}" name="occupation" [maxlength]="128" placeholder="pl. Fejlesztő"
+                [(ngModel)]="form.job" #occupation="ngModel" />
+            <div *ngIf="occupation.invalid && occupation.touched" class="error">
+                <small *ngIf="occupation.errors?.['maxlength']">{{ t('validation.maxLength', { max: 128 }) }}</small>
+            </div>
 
             <div class="actions">
-                <ui-button variant="ghost" (click)="onCancel()">{{ t('create.cancel') }}</ui-button>
-                <ui-button variant="primary" type="submit">{{ t('create.create') }}</ui-button>
+                <ui-button variant="ghost" type="button" (click)="onCancel()">
+                    {{ t('create.cancel') }}
+                </ui-button>
+                <ui-button variant="primary" type="submit" [disabled]="f?.invalid ?? true">
+                    {{ t('create.create') }}
+                </ui-button>
             </div>
         </form>
     </div>
