@@ -1,6 +1,8 @@
+apis/JobTypesApi.ts
 apis/UsersApi.ts
 apis/index.ts
 index.ts
+models/JobType.ts
 models/ModelError.ts
 models/Usr.ts
 models/UsrCreate.ts

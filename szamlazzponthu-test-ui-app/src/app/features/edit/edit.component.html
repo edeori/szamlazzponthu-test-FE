@@ -1,14 +1,52 @@
 <div class="edit-wrapper">
     <div class="edit-card">
-        <h2 class="title">Személy módosítása</h2>
+        <h2 class="title">{{ t('edit.title') }}</h2>
 
-        <form (ngSubmit)="onSubmit()" #f="ngForm" class="form-grid">
-            <ui-input label="{{ t('edit.lastName') }}" [(ngModel)]="form.lastname" name="lastname" />
-            <ui-input label="{{ t('edit.firstName') }}" [(ngModel)]="form.firstname" name="firstname" />
-            <ui-input label="{{ t('edit.address') }}" [(ngModel)]="form.address" name="address" />
-            <ui-input label="{{ t('edit.phone') }}" [(ngModel)]="form.telephone" name="telephone" />
-            <ui-input label="{{ t('edit.job') }}" [(ngModel)]="form.job" name="job" />
+        <form (ngSubmit)="onSubmit()" #f="ngForm" class="form-grid" novalidate>
 
+            <!-- Vezetéknév -->
+            <ui-input label="{{ t('edit.lastName') }}" name="lastname" [required]="true" [minlength]="2"
+                [maxlength]="64" placeholder="pl. Kovács" [(ngModel)]="form.lastname" #lastname="ngModel" />
+            <div *ngIf="lastname.invalid && (lastname.touched || f.submitted)" class="error">
+                <small *ngIf="lastname.errors?.['required']">{{ t('validation.required') }}</small>
+                <small *ngIf="lastname.errors?.['minlength']">{{ t('validation.minLength', { min: 2 }) }}</small>
+                <small *ngIf="lastname.errors?.['maxlength']">{{ t('validation.maxLength', { max: 64 }) }}</small>
+            </div>
+
+            <!-- Keresztnév -->
+            <ui-input label="{{ t('edit.firstName') }}" name="firstname" [required]="true" [minlength]="2"
+                [maxlength]="64" placeholder="pl. Péter" [(ngModel)]="form.firstname" #firstname="ngModel" />
+            <div *ngIf="firstname.invalid && (firstname.touched || f.submitted)" class="error">
+                <small *ngIf="firstname.errors?.['required']">{{ t('validation.required') }}</small>
+                <small *ngIf="firstname.errors?.['minlength']">{{ t('validation.minLength', { min: 2 }) }}</small>
+                <small *ngIf="firstname.errors?.['maxlength']">{{ t('validation.maxLength', { max: 64 }) }}</small>
+            </div>
+
+            <!-- Cím -->
+            <ui-input label="{{ t('edit.address') }}" name="address" [maxlength]="128"
+                placeholder="pl. Budapest, Fő utca 12." [(ngModel)]="form.address" #address="ngModel" />
+            <div *ngIf="address.invalid && (address.touched || f.submitted)" class="error">
+                <small *ngIf="address.errors?.['maxlength']">{{ t('validation.maxLength', { max: 128 }) }}</small>
+            </div>
+
+            <!-- Telefon -->
+            <ui-input label="{{ t('edit.phone') }}" name="telephone" type="tel" [maxlength]="128" pattern="^[0-9+\- ]*$"
+                placeholder="pl. +36 30 123 4567" [(ngModel)]="form.telephone" #telephone="ngModel" />
+            <div *ngIf="telephone.invalid && (telephone.touched || f.submitted)" class="error">
+                <small *ngIf="telephone.errors?.['pattern']">{{ t('validation.phoneFormat') }}</small>
+                <small *ngIf="telephone.errors?.['maxlength']">{{ t('validation.maxLength', { max: 128 }) }}</small>
+            </div>
+
+            <!-- Foglalkozás (dropdown) -->
+            <ui-select label="{{ t('edit.job') }}" name="job" [required]="true" [options]="jobOptions$ | async"
+                placeholder="{{ t('edit.selectJob') || 'Válassz foglalkozást…' }}" [(ngModel)]="form.job"
+                #job="ngModel">
+            </ui-select>
+            <div *ngIf="job.invalid && (job.touched || f.submitted)" class="error">
+                <small *ngIf="job.errors?.['required']">{{ t('validation.required') }}</small>
+            </div>
+
+            <!-- Aktív -->
             <label class="checkbox-row">
                 <input type="checkbox" [(ngModel)]="form.active" name="active" />
                 <span>Aktív</span>
@@ -21,7 +59,9 @@
                     <ui-button variant="danger" type="button" (click)="onDelete()">{{ t('edit.delete') }}</ui-button>
                 </div>
                 <div class="actions-right">
-                    <ui-button variant="primary" type="submit">{{ t('edit.update') }}</ui-button>
+                    <ui-button variant="primary" type="submit" [disabled]="f?.invalid ?? true">
+                        {{ t('edit.update') }}
+                    </ui-button>
                 </div>
             </div>
         </form>

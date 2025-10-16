@@ -267,6 +267,7 @@ export class ResponseError extends Error {
 export class FetchError extends Error {
   override name = "FetchError";
   override cause?: unknown;
+
   constructor(cause?: unknown, msg?: string) {
     super(msg);
     this.cause = cause;
@@ -275,10 +276,14 @@ export class FetchError extends Error {
 }
 
 export class RequiredError extends Error {
-    override name: "RequiredError" = "RequiredError";
-    constructor(public field: string, msg?: string) {
-        super(msg);
-    }
+  override name = "RequiredError";
+  override cause?: unknown;
+
+  constructor(cause?: unknown, msg?: string) {
+    super(msg);
+    this.cause = cause;
+    Object.setPrototypeOf(this, RequiredError.prototype);
+  }
 }
 
 export const COLLECTION_FORMATS = {

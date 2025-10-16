@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './JobType';
 export * from './ModelError';
 export * from './Usr';
 export * from './UsrCreate';

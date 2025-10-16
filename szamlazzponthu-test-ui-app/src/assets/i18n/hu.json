@@ -2,6 +2,12 @@
     "app": {
         "title": "Teszt Táblázat Alkalmazás"
     },
+    "validation": {
+        "required": "Kötelező mező",
+        "minLength": "Minimális hossz: {{min}} karakter",
+        "maxLength": "Maximális hossz: {{max}} karakter",
+        "phoneFormat": "Érvénytelen telefonszám formátum"
+    },
     "table": {
         "empty": "Nincs adat",
         "title": "Terméklista",
@@ -36,7 +42,8 @@
         "address": "Cím",
         "phone": "Telefonszám",
         "cancel": "Mégsem",
-        "create": "Létrehozás"
+        "create": "Létrehozás",
+        "selectJob": "Válassz foglalkozást"
     },
     "edit": {
         "title": "Szerkesztés",
@@ -48,6 +55,7 @@
         "phone": "Telefonszám",
         "cancel": "Mégsem",
         "delete": "Törlés",
-        "update": "Módosítás"
+        "update": "Módosítás",
+        "selectJob": "Válassz foglalkozást"
     }
 }

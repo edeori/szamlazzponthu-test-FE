@@ -3,14 +3,19 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { InputComponent } from '../../shared/ui/input/input.component';
+import { DropdownComponent } from '../../shared/ui/dropdown/dropdown.component';
 import { ButtonComponent } from '../../shared/ui/button/button.component';
 import { TranslationService } from '../../core/services/translation.service';
 import { UsersService } from '../../core/services/users.service';
+import { JobTypesService, UiSelectOption } from '../../core/services/jobtype.service';
+import type { JobType } from '../../core/services/api/models';
+import { combineLatest, map } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-create',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputComponent, ButtonComponent],
+  imports: [CommonModule, FormsModule, InputComponent, ButtonComponent, DropdownComponent],
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })
@@ -18,11 +23,23 @@ export class CreateComponent {
   private router = inject(Router);
   private tService = inject(TranslationService);
   private users = inject(UsersService);
+  private jobTypesSvc = inject(JobTypesService);
 
   t = (key: string, params?: any) => this.tService.t(key, params);
 
   isSubmitting = false;
   serverError: string | null = null;
+
+  jobTypes$ = this.jobTypesSvc.list();
+  lang$ = toObservable(this.tService.currentLang);
+  jobOptions$ = combineLatest([this.jobTypes$, this.lang$]).pipe(
+    map(([rows, lang]) =>
+      rows.map<UiSelectOption>((jt: JobType) => ({
+        value: jt.code,
+        label: lang === 'en' ? jt.labelEn : jt.labelHu
+      }))
+    )
+  );
 
   form = {
     lastname: '',
@@ -63,9 +80,13 @@ export class CreateComponent {
     });
   }
 
+  getJobLabel(j: JobType): string {
+    return this.tService.currentLang() === 'en' ? j.labelEn : j.labelHu;
+  }
+
+  trackByCode = (_: number, j: JobType) => j.code;
 
   onCancel() {
-    console.log('Mégsem');
     this.router.navigate(['/table']);
   }
 }

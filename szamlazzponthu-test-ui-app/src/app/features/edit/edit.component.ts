@@ -6,13 +6,16 @@ import { InputComponent } from '../../shared/ui/input/input.component';
 import { ButtonComponent } from '../../shared/ui/button/button.component';
 import { TranslationService } from '../../core/services/translation.service';
 import { UsersService } from '../../core/services/users.service';
-import { Usr } from '../../core/services/api/models';
-import { catchError, finalize, of } from 'rxjs';
+import { JobTypesService } from '../../core/services/jobtype.service';
+import { Usr, JobType } from '../../core/services/api/models';
+import { catchError, finalize, of, combineLatest, map } from 'rxjs';
+import { DropdownComponent, UiSelectOption } from '../../shared/ui/dropdown/dropdown.component';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-edit',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputComponent, ButtonComponent],
+  imports: [CommonModule, FormsModule, InputComponent, ButtonComponent, DropdownComponent],
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss'],
 })
@@ -21,6 +24,7 @@ export class EditComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private users = inject(UsersService);
+  private jobTypesSvc = inject(JobTypesService);
 
   t = (key: string, params?: any) => this.tService.t(key, params);
 
@@ -39,24 +43,31 @@ export class EditComponent implements OnInit {
     active: true,
   };
 
+  jobTypes$ = this.jobTypesSvc.list();
+  lang$ = toObservable(this.tService.currentLang);
+  jobOptions$ = combineLatest([this.jobTypes$, this.lang$]).pipe(
+    map(([rows, lang]) =>
+      rows.map<UiSelectOption>((jt: JobType) => ({
+        value: jt.code,
+        label: lang === 'en' ? jt.labelEn : jt.labelHu,
+      }))
+    )
+  );
+
   ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    const id = Number(idParam);
+    const id = Number(this.route.snapshot.paramMap.get('id') ?? 0);
 
-    console.log('Edit id=', id);
-
-    // 1) próbáljuk meg a navigation state-et (gyors UI)
-    const fromState = (history.state?.person as { id: number; name?: string; job?: string; active?: boolean }) || null;
-    if (fromState && fromState.id === id) {
-      // ha a listából jöttünk, legalább az azonnali kitöltés:
-      const [firstname = '', lastname = ''] = (fromState.name ?? '').split(' ');
+    const fromState = (history.state?.person as Partial<Usr> | null) ?? null;
+    if (fromState?.id === id) {
       this.form = {
         ...this.form,
         id,
-        firstname,
-        lastname,
-        job: fromState.job ?? '',
-        active: fromState.active ?? true,
+        firstname: fromState.firstname ?? this.form.firstname,
+        lastname: fromState.lastname ?? this.form.lastname,
+        address: fromState.address ?? this.form.address,
+        telephone: fromState.telephone ?? this.form.telephone,
+        job: fromState.job ?? this.form.job,
+        active: fromState.active ?? this.form.active,
       };
     }
 
@@ -70,14 +81,13 @@ export class EditComponent implements OnInit {
         console.error(err);
         this.loading = false;
         alert('Nem sikerült betölteni a felhasználót.');
-        this.router.navigate(['/']); // vagy vissza a listára
+        this.router.navigate(['/']);
       }
     });
   }
 
   onSubmit() {
     // módosítás mentése
-    console.log('Módosítás:', this.form);
     if (!this.form.id) return;
     this.saving = true;
 
@@ -97,7 +107,6 @@ export class EditComponent implements OnInit {
   }
 
   onCancel() {
-    console.log('Mégsem');
     this.router.navigate(['/table']);
   }
 

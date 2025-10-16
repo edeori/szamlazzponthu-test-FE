@@ -1,7 +1,7 @@
 // src/app/core/services/users.service.ts
 import { Injectable } from '@angular/core';
 import { from, map, Observable } from 'rxjs';
-import { apiClient } from './client.initializer';
+import { usersApi } from './client.initializer';
 import type { UsrCreate, UsrPut, Usr } from './api/models';
 
 export interface Person {
@@ -24,7 +24,7 @@ export class UsersService {
         const limit = pageSize;
         const offset = pageIndex * pageSize;
 
-        return from(apiClient.usersGet({ limit, offset })).pipe(
+        return from(usersApi.usersGet({ limit, offset })).pipe(
             map(usrs => ({
                 items: usrs.map(u => ({
                     id: u.id,
@@ -40,15 +40,15 @@ export class UsersService {
     }
 
     getById(id: number): Observable<Usr> {
-        return from(apiClient.usersIdGet({ id }));
+        return from(usersApi.usersIdGet({ id }));
     }
 
     update(id: number, person: UsrPut): Observable<Usr> {
-        return from(apiClient.usersIdPut({ id: id, usrPut: person }));
+        return from(usersApi.usersIdPut({ id: id, usrPut: person }));
     }
 
     delete(id: number): Observable<void> {
-        return from(apiClient.usersIdDelete({ id }));
+        return from(usersApi.usersIdDelete({ id }));
     }
 
     create(form: {
@@ -68,6 +68,6 @@ export class UsersService {
             active: form.active ?? true,
         };
 
-        return from(apiClient.usersPost({ usrCreate: payload }));
+        return from(usersApi.usersPost({ usrCreate: payload }));
     }
 }

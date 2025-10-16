@@ -7,6 +7,22 @@ servers:
   - url: http://localhost:8080
 
 paths:
+  /job-types:
+    get:
+      tags: [JobTypes]
+      summary: Elérhető JobType értékek listázása
+      description: Visszaadja a rendszerben engedélyezett munkakör enumokat.
+      responses:
+        '200':
+          description: JobType lista
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/JobType' }
+              examples:
+                sample:
+                  value: ["KERTESZ", "HENTES", "PEK"]
   /users:
     get:
       tags: [Users]
@@ -137,6 +153,23 @@ components:
           schema: { $ref: '#/components/schemas/ValidationError' }
 
   schemas:
+    JobType:
+      type: object
+      required: [code, label_hu, label_en]
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 16
+        label_hu:
+          type: string
+          minLength: 1
+          maxLength: 64
+        label_en:
+          type: string
+          minLength: 1
+          maxLength: 64
+
     Usr:
       type: object
       required: [id, firstname, lastname, address, telephone, active, job]

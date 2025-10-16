@@ -1,16 +1,13 @@
-import { Configuration, UsersApi } from '../../core/services/api';
+import { Configuration, UsersApi, JobTypesApi } from '../../core/services/api';
 import { environment } from '../../../environments/environment';
 
 function getBaseUrl(): string {
   return environment.apiBaseUrl;
 }
 
-export function createApiClient() {
-  const config = new Configuration({
-    basePath: getBaseUrl()
-  });
+const config = new Configuration({
+  basePath: getBaseUrl(),
+});
 
-  return new UsersApi(config);
-}
-
-export const apiClient = createApiClient();
+export const usersApi = new UsersApi(config);
+export const jobTypesApi = new JobTypesApi(config);

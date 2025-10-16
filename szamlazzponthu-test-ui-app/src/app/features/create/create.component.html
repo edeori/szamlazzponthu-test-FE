@@ -29,7 +29,7 @@
             </div>
 
             <!-- Telefon -->
-            <ui-input label="{{ t('create.phone') }}" name="phone" type="tel" [maxlength]="128" pattern="^[0-9+\s-]*$"
+            <ui-input label="{{ t('create.phone') }}" name="phone" type="tel" [maxlength]="128" pattern="^[0-9+\- ]*$"
                 placeholder="pl. +36 30 123 4567" [(ngModel)]="form.telephone" #phone="ngModel" />
             <div *ngIf="phone.invalid && phone.touched" class="error">
                 <small *ngIf="phone.errors?.['pattern']">{{ t('validation.phoneFormat') }}</small>
@@ -37,11 +37,16 @@
             </div>
 
             <!-- Foglalkozás -->
-            <ui-input label="{{ t('create.job') }}" name="occupation" [maxlength]="128" placeholder="pl. Fejlesztő"
-                [(ngModel)]="form.job" #occupation="ngModel" />
-            <div *ngIf="occupation.invalid && occupation.touched" class="error">
-                <small *ngIf="occupation.errors?.['maxlength']">{{ t('validation.maxLength', { max: 128 }) }}</small>
+            <ui-select label="{{ t('create.job') }}" name="job" [required]="true" [options]="jobOptions$ | async"
+                placeholder="{{ t('create.selectJob') || 'Válassz foglalkozást…' }}" [(ngModel)]="form.job"
+                #job="ngModel">
+            </ui-select>
+
+            <div *ngIf="job.invalid && job.touched" class="error">
+                <small *ngIf="job.errors?.['required']">{{ t('validation.required') }}</small>
             </div>
+
+
 
             <div class="actions">
                 <ui-button variant="ghost" type="button" (click)="onCancel()">
