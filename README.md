@@ -8,3 +8,6 @@ openapi-generator-cli generate -i src/assets/api.yaml -g typescript-fetch -o src
 
 # FIX generated api errors
 node scripts/patch-openapi-runtime.cjs
+
+# Docker build
+docker build -t szamlazzponthu-ui:latest .

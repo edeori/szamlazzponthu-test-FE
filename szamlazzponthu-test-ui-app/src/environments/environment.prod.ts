@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://api.sajatdomain.hu',
+  apiBaseUrl: (window as any).__env?.API_BASE_URL ?? 'https://api.sajatdomain.hu',
 };
