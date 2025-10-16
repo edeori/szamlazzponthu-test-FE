@@ -1,0 +1,53 @@
+{
+    "app": {
+        "title": "Teszt Táblázat Alkalmazás"
+    },
+    "table": {
+        "empty": "Nincs adat",
+        "title": "Terméklista",
+        "columns": {
+            "id": "ID",
+            "name": "Név",
+            "job": "Foglalkozás",
+            "active": "Aktív",
+            "actions": "Műveletek"
+        },
+        "pagination": {
+            "prev": "Előző",
+            "next": "Következő",
+            "page": "Oldal",
+            "size": "Méret",
+            "total": "összesen {{count}} elem"
+        }
+    },
+    "common": {
+        "edit": "Módosítás",
+        "delete": "Törlés",
+        "create": "Létrehozás",
+        "save": "Ment",
+        "cancel": "Mégse"
+    },
+    "create": {
+        "title": "Létrehozás",
+        "firstName": "Keresztnév",
+        "lastName": "Vezetéknév",
+        "job": "Foglalkozás",
+        "active": "Aktív",
+        "address": "Cím",
+        "phone": "Telefonszám",
+        "cancel": "Mégsem",
+        "create": "Létrehozás"
+    },
+    "edit": {
+        "title": "Szerkesztés",
+        "firstName": "Keresztnév",
+        "lastName": "Vezetéknév",
+        "job": "Foglalkozás",
+        "active": "Aktív",
+        "address": "Cím",
+        "phone": "Telefonszám",
+        "cancel": "Mégsem",
+        "delete": "Törlés",
+        "update": "Módosítás"
+    }
+}

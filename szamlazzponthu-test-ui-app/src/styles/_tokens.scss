@@ -1,0 +1,65 @@
+/* Alapszínek (semleges) */
+:root {
+  color-scheme: light;
+  
+  /* Felületek */
+  --bg: #f6f7fb;
+  --surface-bg: #f8f9fb;
+  --surface: #ffffff;
+  --surface-muted: #f1f5f9;
+
+  /* Szöveg */
+  --text: #0f172a;
+  --text-muted: #475569;
+
+  /* Határok / gyűrűk */
+  --border: #cbd5e1;
+  --ring: rgba(99, 102, 241, .35);
+
+  /* Márka / akció */
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-contrast: #ffffff;
+
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --ghost-hover: #f1f5f9;
+
+  /* Elevation (árnyék) */
+  --elev-1: 0 6px 20px rgba(0, 0, 0, .08);
+  --elev-hairline: 0 0 0 1px rgba(0, 0, 0, .04);
+
+  /* Kerekítések, térköz (példák) */
+  --radius-lg: 1rem;
+  --radius-md: .5rem;
+
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+}
+
+/* Dark mód */
+.dark {
+  --bg: #979899;
+  --surface-bg: #818183;
+  --surface: #909194;
+  --surface-muted: #afafaf;
+
+  --text: #e5e7eb;
+  --text-muted: #cbd5e1;
+
+  --border: #334155;
+  --ring: rgba(99, 102, 241, .45);
+
+  --primary: #6366f1;
+  --primary-hover: #5458e9;
+  --primary-contrast: #0b1220;
+
+  --ghost-hover: #0b1220;
+
+  --elev-1: 0 0 0 1px rgba(255, 255, 255, .06);
+  --elev-hairline: 0 0 0 1px rgba(255, 255, 255, .05);
+}

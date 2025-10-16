@@ -1,0 +1,73 @@
+<section class="table-wrap">
+    <div class="table-scroll">
+        <table class="table">
+            <thead>
+                <tr>
+                    @for (col of columns; track col) {
+                    <th [style.width]="col.width ?? null" [style.text-align]="textAlign(col)">{{ col.header }}</th>
+                    }
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (pageData.length === 0) {
+                <tr>
+                    <td class="empty" [attr.colspan]="columns.length || 1">{{ t('table.empty') }}</td>
+                </tr>
+                } @else {
+                @for (row of pageData; track row; let rIdx = $index) {
+                <tr>
+                    @for (col of columns; track col) {
+                    <td [style.text-align]="textAlign(col)">
+                        <ng-container *ngIf="getTemplateForKey(col) as tpl; else textCell">
+                            <ng-container *ngTemplateOutlet="tpl; context: {$implicit: row, rowIndex: rIdx}">
+                            </ng-container>
+                        </ng-container>
+                        <ng-template #textCell>
+                            {{ cellValue(row, col, rIdx) }}
+                        </ng-template>
+                    </td>
+                    }
+                </tr>
+                }
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+    <div class="paginator">
+        <div class="left">
+            <button class="btn" (click)="prev()" [disabled]="pageIndex === 0">
+                {{ t('table.pagination.prev') }}
+            </button>
+
+            <span class="info">
+                {{ t('table.pagination.page') }} {{ pageIndex + 1 }}
+                <ng-container *ngIf="!serverPaging && length as _len">
+                    / {{ totalPages }}
+                </ng-container>
+            </span>
+
+            <button class="btn" (click)="next()" [disabled]="nextDisabled()">
+                {{ t('table.pagination.next') }}
+            </button>
+        </div>
+
+        <div class="right">
+            <label class="size">
+                {{ t('table.pagination.size') }}:
+                <select (change)="onPageSizeChange($event)">
+                    <option [selected]="pageSize===5" value="5">5</option>
+                    <option [selected]="pageSize===10" value="10">10</option>
+                    <option [selected]="pageSize===25" value="25">25</option>
+                    <option [selected]="pageSize===50" value="50">50</option>
+                </select>
+            </label>
+
+            <span class="total" *ngIf="!serverPaging && length as _len">
+                {{ t('table.pagination.total', { count: total }) }}
+            </span>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,38 @@
+/* modern, minimál reset – framework nélkül */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img,
+video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+:root {
+    color-scheme: light dark;
+}
+
+/* engedi a rendszer szerinti sötét/világos témát */

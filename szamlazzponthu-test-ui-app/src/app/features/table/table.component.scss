@@ -1,0 +1,40 @@
+/* --- Oldalstruktúra --- */
+.table-page {
+    display: grid;
+    gap: .75rem;
+}
+
+/* --- Felső eszköztár (a táblázat fölött) --- */
+.table-toolbar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    padding-left: .75rem;
+    height: auto;
+    max-width: 100%;
+}
+
+
+/* Létrehozás gomb finomhangolás */
+.table-toolbar ui-button {
+    --btn-font-size: .95rem;
+    --btn-radius: .5rem;
+    --btn-padding: .5rem .9rem;
+    font-weight: 600;
+}
+
+/* --- Táblázat margó --- */
+ui-data-table {
+    margin-top: .25rem;
+}
+
+/* --- Akciógombok a cellákban --- */
+.actions-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .75rem;
+    white-space: nowrap;
+}

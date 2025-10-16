@@ -1,0 +1,18 @@
+<section class="table-page">
+  <div class="table-toolbar">
+    <ui-button variant="primary" size="md" (click)="onCreate()">
+      {{ t('common.create') }}
+    </ui-button>
+  </div>
+
+  <ui-data-table [data]="data" [columns]="columns" [pageIndex]="pageIndex" [pageSize]="pageSize" [serverPaging]="true"
+    [hasMore]="hasMore" (pageChange)="onPageChange($event)">
+    <ng-template cell="actions" let-row>
+      <div class="actions-buttons">
+        <ui-button size="sm" variant="danger" (click)="onDelete(row)">{{ t('common.delete') }}</ui-button>
+        <ui-button size="sm" variant="primary" (click)="onEdit(row)">{{ t('common.edit') }}</ui-button>
+      </div>
+    </ng-template>
+  </ui-data-table>
+
+</section>

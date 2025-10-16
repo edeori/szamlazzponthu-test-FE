@@ -1,0 +1,21 @@
+{
+  "app": {
+    "title": "Teszt Táblázat Alkalmazás"
+  },
+  "table": {
+    "title": "Terméklista",
+    "columns": {
+      "id": "ID",
+      "name": "Név",
+      "price": "Ár (Ft)",
+      "stock": "Készlet"
+    },
+    "pagination": {
+      "prev": "Előző",
+      "next": "Következő",
+      "page": "Oldal",
+      "size": "Méret",
+      "total": "összesen {{count}} elem"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+<div class="edit-wrapper">
+    <div class="edit-card">
+        <h2 class="title">Személy módosítása</h2>
+
+        <form (ngSubmit)="onSubmit()" #f="ngForm" class="form-grid">
+            <ui-input label="{{ t('edit.lastName') }}" [(model)]="form.lastname" />
+            <ui-input label="{{ t('edit.firstName') }}" [(model)]="form.firstname" />
+            <ui-input label="{{ t('edit.address') }}" [(model)]="form.address" />
+            <ui-input label="{{ t('edit.phone') }}" [(model)]="form.phone" />
+            <ui-input label="{{ t('edit.job') }}" [(model)]="form.occupation" />
+
+            <!-- Aktív státusz -->
+            <label class="checkbox-row">
+                <input type="checkbox" [(ngModel)]="form.active" name="active" />
+                <span>Aktív</span>
+            </label>
+
+            <!-- Akciók -->
+            <div class="actions">
+                <div class="actions-left">
+                    <ui-button variant="ghost" type="button" (click)="onCancel()">{{ t('edit.cancel') }}</ui-button>
+                    <ui-button variant="danger" type="button" (click)="onDelete()">{{ t('edit.delete') }}</ui-button>
+                </div>
+                <div class="actions-right">
+                    <ui-button variant="primary" type="submit">{{ t('edit.update') }}</ui-button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+.table-wrap {
+  display: grid;
+  gap: .75rem;
+  max-width: 960px;
+  margin-inline: auto;
+}
+.table-scroll { overflow: auto; border-radius: .75rem; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  padding: .6rem .75rem;
+  border-bottom: 1px solid color-mix(in oklab, currentColor 12%, transparent);
+  white-space: nowrap;
+}
+thead th {
+  position: sticky; top: 0;
+  font-weight: 600;
+}
+tbody tr:hover { background: color-mix(in oklab, currentColor 6%, transparent); }
+td.empty { text-align: center; padding: 1.25rem; color: var(--color-muted, #666); }
+
+.paginator {
+  display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+  font-size: .95rem;
+}
+.left, .right { display: flex; align-items: center; gap: .5rem; }
+.btn {
+  padding: .45rem .8rem; border: 1px solid color-mix(in oklab, currentColor 20%, transparent);
+  background: transparent; border-radius: .5rem; cursor: pointer;
+}
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.size select { margin-left: .25rem; }

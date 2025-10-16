@@ -1,0 +1,18 @@
+<div class="create-wrapper">
+    <div class="create-card">
+        <h2 class="title">{{ t('create.title') }}</h2>
+
+        <form (ngSubmit)="onSubmit()" #f="ngForm" class="form-grid">
+            <ui-input label="{{ t('create.lastName') }}" [(model)]="form.lastname" placeholder="pl. Kovács" />
+            <ui-input label="{{ t('create.firstName') }}" [(model)]="form.firstname" placeholder="pl. Péter" />
+            <ui-input label="{{ t('create.address') }}" [(model)]="form.address" placeholder="pl. Budapest, Fő utca 12." />
+            <ui-input label="{{ t('create.phone') }}" [(model)]="form.phone" placeholder="pl. +36 30 123 4567" />
+            <ui-input label="{{ t('create.job') }}" [(model)]="form.occupation" placeholder="pl. Fejlesztő" />
+
+            <div class="actions">
+                <ui-button variant="ghost" (click)="onCancel()">{{ t('create.cancel') }}</ui-button>
+                <ui-button variant="primary" type="submit">{{ t('create.create') }}</ui-button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+.field {
+  display: grid;
+  gap: .375rem;
+}
+
+.label {
+  font-size: .875rem;
+  color: #475569;
+}
+
+.control {
+  width: 100%;
+  padding: .6rem .8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: .5rem;
+  background: #fff;
+  color: #0f172a;
+  outline: none;
+  transition: box-shadow .15s ease, border-color .15s ease;
+
+  &:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, .15);
+  }
+
+  &::placeholder {
+    color: #94a3b8;
+  }
+}
+
+/* Dark mód */
+:host-context(.dark) .label {
+  color: #cbd5e1;
+}
+
+:host-context(.dark) .control {
+  background: #0b1220;
+  border-color: #334155;
+  color: #e2e8f0;
+}
