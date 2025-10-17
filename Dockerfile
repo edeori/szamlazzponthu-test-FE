@@ -22,7 +22,7 @@ RUN apk add --no-cache gettext
 COPY scripts/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Statikus build kimenet (Angular 19 application builder)
-COPY --from=build /app/dist/szamlazzponthu-test-ui-app /usr/share/nginx/html
+COPY --from=build /app/dist/szamlazzponthu-test-ui-app/browser /usr/share/nginx/html
 
 # assets az env.js-nek
 RUN mkdir -p /usr/share/nginx/html/assets
