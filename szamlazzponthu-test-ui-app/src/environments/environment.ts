@@ -1,4 +1,7 @@
+const RUNTIME = (window as any).__env || {};
+const API_BASE = (RUNTIME.API_BASE_URL as string) || '/api';
+
 export const environment = {
   production: false,
-  apiBaseUrl: (window as any).__env?.API_BASE_URL ?? 'http://localhost:8080',
+  apiBaseUrl: API_BASE,
 };
