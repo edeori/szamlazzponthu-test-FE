@@ -7,7 +7,7 @@ on:
       - "Dockerfile"
       - "scripts/**"
       - "szamlazzponthu-test-ui-app/**"
-      - ".github/workflows/ui-docker-local.yml"
+      - ".github/workflows/ui-docker.yml"
 
 permissions:
   contents: read
