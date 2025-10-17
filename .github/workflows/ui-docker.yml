@@ -24,7 +24,7 @@ permissions:
 env:
   # Az image neve GHCR-hez: ghcr.io/<owner>/<repo>-ui
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-ui
+  IMAGE_NAME: szamlazz-ui
 
 jobs:
   docker:
